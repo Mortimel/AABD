@@ -1,0 +1,63 @@
+Parâmetros Físicos:
+
+PCTFREE - Permite especificar que percentagem do bloco que deve ficar livre para atualizações (Entre 1 e 25)
+
+PCTUSED - Permite especificar qual a percentagem minima de ocupação do bloco (Entre 40 e 95)
+
+
+O QUE ACONTECE QUANDO O BLOCO FICA CHEIO?
+
+-Quando não há espaço livre para atualizações é efetuado um reorganização dos blocos de modo a q os dados 
+que estavam nesse bloco fiquem em 2 blocos do mesmo extent
+
+-Quando atingir o espaço limite, novas inserções são efetuadas noutros blocos no mesmo extent
+(100 - PCTFREE)%
+
+
+NOTA:
+
+- PCTFREE + PCTUSED < 100
+
+- O bloco admite inserções até atingir o seu limite máximo que é de 80% (PCTFREE é 20%)
+
+- Após atingir o limite máximo especificado este pode aumentar devido às atualizações de registos 
+
+- O valor também pode baixar(PCTUSED) devido a apagamentos 
+
+-O bloco volta assim a admitir mais inserções até atingir os 80%
+
+
+STORAGE PARAMETERS (CONTAS A SABER):
+
+Header Fixo (HF) = 84 Bytes
+
+Header Variavel (HV) = 5 bytes por registo ou seja (2 bytes header de registo + 1 byte com nºde colunas
+							+ 2 bytes no row directory)
+
+Tamanho do bloco (TB) = 4096 Bytes (por defeito)
+
+
+Tamanho média do registo (TMR) = Soma(Tamanho médio dos campos) + 5 bytes por registo (HV) + 
+				1 byte por cada coluna do registo
+
+Espaço Livre no Bloco (ELB) = TB * (100 - PCTFREE) / 100 - HF
+
+Nº Médio de Registos por bloco (NRB) = Espaço livre do bloco / Tamanho Méio do Registo
+
+
+INITIAL - Tamanho do extent inicial atribuido quando o segment é criado (bytes)
+
+	Nº DE BLOCOS (NB)= Nº de Registos Existentes/Nº de Registos por Bloco
+	Espaço Incial da Tabela (EIT)= Nº de Blocos * Tamanho do bloco
+
+NEXT - Tamanho a atribuir ao extent quando o inicial estiver cheio (bytes)
+	
+	NB Previstos = Nº de Registos Existentes / Nº de Registos do Bloco
+	EIT = NB Previstos * Tamanho do bloco
+
+MAXEXTENDS - nº max de extends atribuiveis a um segmento
+
+MINEXTENDS - nº min de extends atribuiveis a um segmento quando este é criado
+
+PCTINCREASE -% de incremento no tamanho dos extents atribiodos a seguir ao next
+

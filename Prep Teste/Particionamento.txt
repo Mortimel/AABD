@@ -1,0 +1,51 @@
+Os 4 métodos de Particionamento:
+
+Range (intervalo):
+
+- Mapeia dados para partições com base em intervalos geralmente temporais (mais usado para datas)
+
+- Os registos têm que estar identificados por uma "chave de partição" que estejam num intervalo pré definido
+
+- Útil para tabelas que a chave de partição corresponde à chave de acesso a dados.
+
+- Tipo mais comum de particionamento
+
+*******Balanço entre Janeiro e Fevereiro******Março e Abril********
+
+
+List (Lista)
+
+- As partições são mapeadas numa lista enumerada
+
+- Vantagem de se poder agrupar e organizar conjuntos de dados desordenados e não relacionados de uma 
+maneira natural
+
+- Não suporta chaves de partição de várias colunas
+
+- Permite que os dados sejam mapeados para partições especificandouma lista de valores discretos para a chave de particionamento.
+
+******** Locais por Região ****** Se está aberto ou não (estado)******
+
+
+Hash
+
+- Controla a colocação física de dados um número fixo de partições
+
+- Permite o fácil particionamento de dados que não se enquadrem no Range ou List
+
+- útil principalmente para aplicações que processam grandes volumes de dados e utilizam processos paralelos.
+
+- é melhor quando:
+	-Não é conhecido em antemão a quantidade de dados que serão mapeados em cada intervalo
+	-Os tamanhos das partições diferem bastante ou sejam fificeis de balancear manualmente
+
+
+Composite (Composto)
+
+- Os dados particionados usando um método (exRange) e subparticionado (exList) por outro método
+
+- Combina o melhor de dois mundos, Range e Hash, Range e List, Hash e List:
+	-Agrupamentos lógicos no nível da partição (Range) e balancemaneto dos dados nas 
+	sub-partições (Hash)
+
+****Particionado por ... e por ... *******
